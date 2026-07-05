@@ -1,0 +1,48 @@
+title: "It's Already Priced In."
+tagline: "Crypto security and markets for people who already know how this ends."
+description: "Weekly crypto security and market intelligence, plainly explained."
+url: "https://bizzal70.github.io"
+baseurl: "/itsalreadypriced"
+
+author:
+  name: "The Desk"
+
+permalink: /:year/:month/:day/:title/
+
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+collections:
+  field_notes:
+    output: true
+    permalink: /field-notes/:year/:month/:day/:title/
+  rtfm:
+    output: true
+    permalink: /rtfm/:year/:month/:day/:title/
+
+exclude:
+  - scraper/
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "field_notes"
+    values:
+      layout: "field_note"
+  - scope:
+      path: ""
+      type: "rtfm"
+    values:
+      layout: "rtfm"

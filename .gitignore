@@ -1,0 +1,7 @@
+_site/
+.jekyll-cache/
+.jekyll-metadata
+Gemfile.lock
+scraper/__pycache__/
+*.pyc
+.env
