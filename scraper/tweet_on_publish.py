@@ -126,12 +126,28 @@ def main():
         return
 
     import tweepy
+
+    # --- diagnostics (NEVER prints secret values, only shape/auth result) ---
+    print("Credential shape check (expected: key~25/no-dash, secret~50, token~50/has-dash, tokensecret~45):")
+    for k in ("X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_TOKEN_SECRET"):
+        v = creds[k] or ""
+        print(f"  {k}: len={len(v)} has_dash={'-' in v} placeholder={v == 'REPLACE_ME_PLACEHOLDER'} "
+              f"whitespace_edges={v != v.strip()}")
+
     client = tweepy.Client(
         consumer_key=creds["X_API_KEY"],
         consumer_secret=creds["X_API_SECRET"],
         access_token=creds["X_ACCESS_TOKEN"],
         access_token_secret=creds["X_ACCESS_TOKEN_SECRET"],
     )
+
+    try:
+        me = client.get_me()
+        print(f"READ-AUTH OK: authenticated as @{me.data.username} "
+              "(credentials valid; any post failure is a write-permission issue)")
+    except Exception as e:
+        print(f"READ-AUTH FAILED: {type(e).__name__}: {e} "
+              "(credentials themselves are invalid/mismatched, not a permission issue)")
 
     for path in targets:
         info = resolve(path)
