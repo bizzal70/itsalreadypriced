@@ -3,6 +3,8 @@ name: Deploy Jekyll to GitHub Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "scraper/**"
   workflow_dispatch:
 
 permissions:
