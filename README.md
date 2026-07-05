@@ -1,4 +1,4 @@
-# It's Already Priced In.
+# It's Already Priced.
 
 Crypto security and markets for people who already know how this ends. A shadow-published weekly digest. Security-led, markets-aware.
 
