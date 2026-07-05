@@ -5,7 +5,7 @@ title: About
 
 ## About
 
-**It's Already Priced In.** is a weekly crypto intelligence digest for people who don't need the hype explained, just the signal.
+**It's Already Priced.** is a weekly crypto intelligence digest for people who don't need the hype explained, just the signal.
 
 Security leads. Every week: the exploits that drained real money, the wallets and contracts worth watching, the market and regulatory moves that actually shift the board, and the tradecraft worth understanding. No shilling. No moon math. Just what happened, where the money went, and why it matters.
 
