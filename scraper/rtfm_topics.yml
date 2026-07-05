@@ -1,0 +1,88 @@
+- topic: Token Approvals and the Infinite Allowance
+  framework: EIP-20 (approve / allowance)
+  framework_url: https://eips.ethereum.org/EIPS/eip-20
+  angle: The single most common way live wallets get drained without the seed phrase
+    ever leaking
+  used: false
+- topic: Seed Phrases and Where Keys Actually Leak
+  framework: BIP-39 (Mnemonic Code)
+  framework_url: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+  angle: The key was never brute-forced. It was photographed, synced, or pasted into
+    a malware-infected machine
+  used: false
+- topic: Signature Requests and Blind Signing
+  framework: EIP-712 (Typed Structured Data Signing)
+  framework_url: https://eips.ethereum.org/EIPS/eip-712
+  angle: Why approving a signature you cannot read is how permit-based drainers empty
+    a wallet in one click
+  used: false
+- topic: Multisig and Threshold Signing, Beyond Buying a Safe
+  framework: Safe (Gnosis Safe) Smart Account
+  framework_url: https://docs.safe.global/
+  angle: A multisig where one person holds three of the keys is a single point of
+    failure with extra steps
+  used: false
+- topic: Bridge Risk and Why Cross-Chain Is the Weakest Link
+  framework: Trail of Bits — Building Secure Contracts
+  framework_url: https://secure-contracts.com/
+  angle: Bridges concentrate value behind a handful of keys and a validator set, and
+    attackers know it
+  used: false
+- topic: Upgradeable Contracts and the Admin Key Problem
+  framework: OpenZeppelin Proxy Upgrade Patterns
+  framework_url: https://docs.openzeppelin.com/upgrades-plugins/proxies
+  angle: Immutable code is a marketing line when a single upgrade key can replace it
+    all
+  used: false
+- topic: Oracle Manipulation and Price Feed Integrity
+  framework: Chainlink Data Feeds
+  framework_url: https://docs.chain.link/data-feeds
+  angle: Most DeFi exploits are not code bugs, they are the protocol trusting a number
+    an attacker controls
+  used: false
+- topic: Reading a Token Contract Before You Buy the Rug
+  framework: OWASP Smart Contract Top 10
+  framework_url: https://owasp.org/www-project-smart-contract-top-10/
+  angle: Mint functions, hidden owners, and blacklists are visible on-chain before
+    the exit, if you look
+  used: false
+- topic: Cold Storage and Operational Security for Custody
+  framework: NIST SP 800-57 (Key Management)
+  framework_url: https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final
+  angle: Self-custody is a key management program, not a hardware wallet in a drawer
+  used: false
+- topic: Exchange Custody, Counterparty Risk, and Proof of Reserves
+  framework: Chainlink Proof of Reserve
+  framework_url: https://chain.link/proof-of-reserve
+  angle: Not your keys, not your coins is not a slogan, it is a balance-sheet claim
+    you cannot audit
+  used: false
+- topic: Address Poisoning and Clipboard Malware
+  framework: MITRE ATT&CK
+  framework_url: https://attack.mitre.org/
+  angle: The attacker does not need your key if they can change the address you paste
+  used: false
+- topic: On-Chain Forensics and Following Stolen Funds
+  framework: Etherscan and Public Block Explorers
+  framework_url: https://etherscan.io/
+  angle: The ledger is public, which is exactly why laundering, not theft, is the
+    hard part for attackers
+  used: false
+- topic: MEV, Front-Running, and Sandwich Attacks
+  framework: Flashbots MEV Documentation
+  framework_url: https://docs.flashbots.net/
+  angle: Your pending transaction is a public broadcast of intent, and bots read it
+    faster than you do
+  used: false
+- topic: Governance Attacks and Flash-Loan Voting
+  framework: Compound and OpenZeppelin Governor
+  framework_url: https://docs.openzeppelin.com/contracts/governance
+  angle: Borrowed voting power is real voting power for exactly one block, and that
+    is enough
+  used: false
+- topic: Smart Contract Security Best Practices for Builders
+  framework: ConsenSys Smart Contract Best Practices
+  framework_url: https://consensys.github.io/smart-contract-best-practices/
+  angle: Reentrancy is decades old and still drains protocols, because checks-effects-interactions
+    is boring
+  used: false
