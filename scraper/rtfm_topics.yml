@@ -3,7 +3,7 @@
   framework_url: https://eips.ethereum.org/EIPS/eip-20
   angle: The single most common way live wallets get drained without the seed phrase
     ever leaking
-  used: false
+  used: true
 - topic: Seed Phrases and Where Keys Actually Leak
   framework: BIP-39 (Mnemonic Code)
   framework_url: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
@@ -31,8 +31,8 @@
 - topic: Upgradeable Contracts and the Admin Key Problem
   framework: OpenZeppelin Proxy Upgrade Patterns
   framework_url: https://docs.openzeppelin.com/upgrades-plugins/proxies
-  angle: Immutable code is a marketing line when a single upgrade key can replace it
-    all
+  angle: Immutable code is a marketing line when a single upgrade key can replace
+    it all
   used: false
 - topic: Oracle Manipulation and Price Feed Integrity
   framework: Chainlink Data Feeds
