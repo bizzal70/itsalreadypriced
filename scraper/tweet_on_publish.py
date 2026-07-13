@@ -2,7 +2,8 @@
 Tweet-on-publish for It's Already Priced.
 Triggered by the GitHub Actions workflow (.github/workflows/tweet-on-publish.yml)
 when a new post is added under _posts/, _field_notes/, or _rtfm/.
-Waits for the live GitHub Pages URL to return 200, then posts to X (@ItsAlreadyPrice).
+Waits for the live GitHub Pages URL to return 200, then posts to X (@ItsAlreadyPrice)
+with a generated 1200x675 thumbnail card.
 
 Env:
   X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET  (repo secrets)
@@ -22,11 +23,10 @@ BLOG_URL = "https://bizzal70.github.io/itsalreadypriced"
 HANDLE = "ItsAlreadyPrice"
 ROOT = Path(__file__).resolve().parent.parent
 
-# collection dir -> URL prefix
 COLLECTIONS = {
-    "_posts": "",                  # /YYYY/MM/DD/slug/
-    "_field_notes": "field-notes",  # /field-notes/YYYY/MM/DD/slug/
-    "_rtfm": "rtfm",               # /rtfm/YYYY/MM/DD/slug/
+    "_posts": "",
+    "_field_notes": "field-notes",
+    "_rtfm": "rtfm",
 }
 
 
@@ -103,6 +103,15 @@ def build_tweet(coll, fm, url):
     return tweet
 
 
+def make_thumbnail(fm):
+    try:
+        from x_thumbnail import render
+        return render("priced", fm)
+    except Exception as e:
+        print(f"[x_thumbnail] WARNING: {e}; posting without image")
+        return None
+
+
 def main():
     creds = {k: os.environ.get(k) for k in
              ("X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_TOKEN_SECRET")}
@@ -127,12 +136,10 @@ def main():
 
     import tweepy
 
-    # --- diagnostics (NEVER prints secret values, only shape/auth result) ---
-    print("Credential shape check (expected: key~25/no-dash, secret~50, token~50/has-dash, tokensecret~45):")
+    print("Credential shape check:")
     for k in ("X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_TOKEN_SECRET"):
         v = creds[k] or ""
-        print(f"  {k}: len={len(v)} has_dash={'-' in v} placeholder={v == 'REPLACE_ME_PLACEHOLDER'} "
-              f"whitespace_edges={v != v.strip()}")
+        print(f"  {k}: len={len(v)} has_dash={'-' in v} whitespace_edges={v != v.strip()}")
 
     client = tweepy.Client(
         consumer_key=creds["X_API_KEY"],
@@ -140,14 +147,17 @@ def main():
         access_token=creds["X_ACCESS_TOKEN"],
         access_token_secret=creds["X_ACCESS_TOKEN_SECRET"],
     )
-
     try:
         me = client.get_me()
-        print(f"READ-AUTH OK: authenticated as @{me.data.username} "
-              "(credentials valid; any post failure is a write-permission issue)")
+        print(f"READ-AUTH OK: authenticated as @{me.data.username}")
     except Exception as e:
-        print(f"READ-AUTH FAILED: {type(e).__name__}: {e} "
-              "(credentials themselves are invalid/mismatched, not a permission issue)")
+        print(f"READ-AUTH FAILED: {type(e).__name__}: {e}")
+
+    auth = tweepy.OAuth1UserHandler(
+        creds["X_API_KEY"], creds["X_API_SECRET"],
+        creds["X_ACCESS_TOKEN"], creds["X_ACCESS_TOKEN_SECRET"],
+    )
+    v1 = tweepy.API(auth)
 
     for path in targets:
         info = resolve(path)
@@ -158,10 +168,30 @@ def main():
         if not wait_for_200(info["url"]):
             print(f"  URL never returned 200 within timeout; skipping {path}")
             continue
+
+        thumb_path = make_thumbnail(info["fm"])
+        media_ids = None
+        if thumb_path:
+            try:
+                media = v1.media_upload(thumb_path)
+                media_ids = [media.media_id]
+                print(f"[x_thumbnail] media_id={media.media_id}")
+            except Exception as e:
+                print(f"[x_post] WARNING: media upload failed ({e}); posting without image")
+
         tweet = build_tweet(info["coll"], info["fm"], info["url"])
         print(f"Posting:\n{tweet}\n")
-        resp = client.create_tweet(text=tweet)
+        kwargs = {"text": tweet}
+        if media_ids:
+            kwargs["media_ids"] = media_ids
+        resp = client.create_tweet(**kwargs)
         print(f"Tweeted: https://x.com/{HANDLE}/status/{resp.data['id']}")
+
+        if thumb_path:
+            try:
+                os.unlink(thumb_path)
+            except Exception:
+                pass
 
 
 if __name__ == "__main__":
