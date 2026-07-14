@@ -86,8 +86,12 @@ summary: "{safe_summary}"
 ---
 
 """
+    cta = (
+        "\n\n---\n\n*Daily field notes, weekly Issues. Follow "
+        "[@ItsAlreadyPrice](https://x.com/ItsAlreadyPrice) or subscribe via RSS.*"
+    )
     NOTES_DIR.mkdir(exist_ok=True)
-    filename.write_text(frontmatter + content, encoding="utf-8")
+    filename.write_text(frontmatter + content + cta, encoding="utf-8")
     print(f"Field Note written: {filename}")
     return filename
 
