@@ -67,7 +67,8 @@ Rules:
 - If a claim cannot be tied to one of the articles below, leave it out
 
 Output format:
-- FIRST line: "SUMMARY: <one dry sentence for the blog index>"
+- FIRST line: "HEADLINE: <a specific, curiosity-driving headline for this week's issue, 40 to 70 characters, no issue number, no date, no clickbait lies; lead with the week's single most interesting concrete thing>"
+- SECOND line: "SUMMARY: <one dry sentence for the blog index>"
 - Then the post body (the five sections above)
 - LAST line: "SOURCES: <comma-separated URLs, copied verbatim from the articles below, of the specific items you actually drew from>"
 
@@ -79,20 +80,30 @@ ARTICLES THIS WEEK:
 """
 
 
-def write_post(issue_number, title, summary, content):
+def write_post(issue_number, headline, summary, content, week_label):
     today = datetime.now().strftime("%Y-%m-%d")
     filename = POSTS_DIR / f"{today}-issue-{issue_number:03d}.md"
     safe_summary = summary.replace('"', "'")
+    # Promote the hook (headline, else summary) into the title; the issue number
+    # and week drop to a kicker line above the body instead of owning the title.
+    hook = (headline or summary).strip().strip('"').rstrip(".")
+    title = (hook or f"Issue #{issue_number:03d} — {week_label}").replace('"', "'")
+    kicker = f"*Issue #{issue_number:03d} · {week_label}*"
+    cta = (
+        "\n\n---\n\n*New Issue every week. Follow "
+        "[@ItsAlreadyPrice](https://x.com/ItsAlreadyPrice) or subscribe via RSS "
+        "so the next exploit does not surprise you.*"
+    )
     frontmatter = f"""---
 layout: post
-title: "Issue #{issue_number:03d} — {title}"
+title: "{title}"
 date: {today}
 issue: "{issue_number}"
 summary: "{safe_summary}"
 ---
 
 """
-    filename.write_text(frontmatter + content, encoding="utf-8")
+    filename.write_text(frontmatter + kicker + "\n\n" + content + cta, encoding="utf-8")
     print(f"Post written: {filename}")
     return filename
 
@@ -125,9 +136,11 @@ def main():
     )
     raw = response.content[0].text.strip()
 
-    summary, sources_line, body = "", "", []
+    headline, summary, sources_line, body = "", "", "", []
     for line in raw.splitlines():
-        if line.startswith("SUMMARY:"):
+        if line.startswith("HEADLINE:"):
+            headline = line.replace("HEADLINE:", "").strip()
+        elif line.startswith("SUMMARY:"):
             summary = line.replace("SUMMARY:", "").strip()
         elif line.startswith("SOURCES:"):
             sources_line = line
@@ -140,8 +153,8 @@ def main():
     content = content + "\n\n" + build_resources_section(content, sources)
 
     issue_number = get_issue_number()
-    title = f"Week of {datetime.now().strftime('%B %d, %Y')}"
-    filepath = write_post(issue_number, title, summary, content)
+    week_label = f"Week of {datetime.now().strftime('%B %d, %Y')}"
+    filepath = write_post(issue_number, headline, summary, content, week_label)
 
     mark_used(conn, input_urls)
     conn.close()
