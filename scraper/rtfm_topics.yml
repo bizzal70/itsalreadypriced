@@ -9,7 +9,7 @@
   framework_url: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
   angle: The key was never brute-forced. It was photographed, synced, or pasted into
     a malware-infected machine
-  used: false
+  used: true
 - topic: Signature Requests and Blind Signing
   framework: EIP-712 (Typed Structured Data Signing)
   framework_url: https://eips.ethereum.org/EIPS/eip-712
