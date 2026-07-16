@@ -105,6 +105,8 @@ All scheduled workflows support `workflow_dispatch` for manual runs.
 
 ## Content rules
 
+- **Headline-first titles** — the generator asks the model for a `HEADLINE:` line and promotes it to the post title; the `Issue #NNN · Week of …` label drops to a kicker line above the body. The title slot does click-work instead of filing the post. Falls back to the summary, then the old label, if no headline comes back
+- **Every post closes with a follow CTA** — weekly Issues and daily Field Notes both end with a follow/subscribe line ([@ItsAlreadyPrice](https://x.com/ItsAlreadyPrice) or RSS), so a post is never a dead end
 - **No em dashes** — a deliberate choice to avoid an obvious AI-writing tell
 - **No AI disclosure** in post copy
 - **Source links are deterministic** — `resources.py` builds block-explorer URLs from token/tx IDs directly; never hallucinated
