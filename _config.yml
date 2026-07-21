@@ -12,6 +12,9 @@ permalink: /:year/:month/:day/:title/
 markdown: kramdown
 highlighter: rouge
 
+twitter:
+  username: ItsAlreadyPrice
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -32,6 +35,10 @@ exclude:
   - Gemfile.lock
 
 defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/og-card.png
   - scope:
       path: ""
       type: "posts"
