@@ -15,7 +15,7 @@
   framework_url: https://eips.ethereum.org/EIPS/eip-712
   angle: Why approving a signature you cannot read is how permit-based drainers empty
     a wallet in one click
-  used: false
+  used: true
 - topic: Multisig and Threshold Signing, Beyond Buying a Safe
   framework: Safe (Gnosis Safe) Smart Account
   framework_url: https://docs.safe.global/
