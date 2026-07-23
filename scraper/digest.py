@@ -1,5 +1,5 @@
 """
-Weekly Issue generator — pulls the past 7 days of articles from SQLite,
+Weekly Issue generator â€” pulls the past 7 days of articles from SQLite,
 sends them to Claude, writes an IAW-structured Jekyll post to _posts/.
 
 Run: python digest.py    Requires: ANTHROPIC_API_KEY
@@ -47,16 +47,16 @@ def build_prompt(articles):
         lines.append(f"[{category.upper()}] {published_at[:10]} | {source}\nTitle: {title}\nURL: {url}\nSummary: {summary}\n")
     articles_text = "\n---\n".join(lines)
 
-    return f"""You are the anonymous author of "It's Already Priced." — a weekly crypto security and markets intelligence digest. Security leads; markets are context. Your voice is dry, world-weary, and authoritative, allergic to hype, shilling, and price targets. You read the block explorer, not the timeline. The running thesis: by the time it is news, it is already priced in.
+    return f"""You are the anonymous author of "It's Already Priced." â€” a weekly crypto security and markets intelligence digest. Security leads; markets are context. Your voice is dry, world-weary, and authoritative, allergic to hype, shilling, and price targets. You read the block explorer, not the timeline. The running thesis: by the time it is news, it is already priced in.
 
 Below are this week's crypto articles (security incidents, exploits, protocol news, markets, regulation). Write the weekly Issue in Markdown.
 
 Use exactly these section headers (## ...), in this order:
-1. **This Week's Verdict** — 2 to 3 sentences capturing the week's theme with dry wit
-2. **The Breaches** — the exploits, drains, and thefts that moved real money; name the protocols and amounts
-3. **Vulnerabilities Worth Your Attention** — a short bulleted list with bold lead-ins; disclosed flaws, bug-bounty saves, systemic risks
-4. **Threat Actors & Campaigns** — who is active (Lazarus/DPRK, drainer crews, etc.) and how
-5. **The Bigger Picture** — the market, regulatory, and adoption moves that actually shift the board
+1. **This Week's Verdict** â€” 2 to 3 sentences capturing the week's theme with dry wit
+2. **The Breaches** â€” the exploits, drains, and thefts that moved real money; name the protocols and amounts
+3. **Vulnerabilities Worth Your Attention** â€” a short bulleted list with bold lead-ins; disclosed flaws, bug-bounty saves, systemic risks
+4. **Threat Actors & Campaigns** â€” who is active (Lazarus/DPRK, drainer crews, etc.) and how
+5. **The Bigger Picture** â€” the market, regulatory, and adoption moves that actually shift the board
 
 Rules:
 - Be specific: name protocols, chains, dollar amounts, threat actors, and standards
@@ -87,8 +87,8 @@ def write_post(issue_number, headline, summary, content, week_label):
     # Promote the hook (headline, else summary) into the title; the issue number
     # and week drop to a kicker line above the body instead of owning the title.
     hook = (headline or summary).strip().strip('"').rstrip(".")
-    title = (hook or f"Issue #{issue_number:03d} — {week_label}").replace('"', "'")
-    kicker = f"*Issue #{issue_number:03d} · {week_label}*"
+    title = (hook or f"Issue #{issue_number:03d} â€” {week_label}").replace('"', "'")
+    kicker = f"*Issue #{issue_number:03d} Â· {week_label}*"
     cta = (
         "\n\n---\n\n*New Issue every week. Follow "
         "[@ItsAlreadyPrice](https://x.com/ItsAlreadyPrice) or subscribe via RSS "
@@ -103,7 +103,7 @@ summary: "{safe_summary}"
 ---
 
 """
-    related = build_related_section(POSTS_DIR.parent, filename.name)
+    related = build_related_section(POSTS_DIR.parent, filename.name, current_text=f"{headline} {content}")
     filename.write_text(
         frontmatter + kicker + "\n\n" + content
         + ("\n\n" + related if related else "") + cta,
