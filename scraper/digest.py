@@ -100,6 +100,7 @@ title: "{title}"
 date: {today}
 issue: "{issue_number}"
 summary: "{safe_summary}"
+description: "{safe_summary}"
 ---
 
 """
