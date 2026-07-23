@@ -1,5 +1,5 @@
 """
-Daily Field Note generator — pulls the last 24h of high-signal articles,
+Daily Field Note generator â€” pulls the last 24h of high-signal articles,
 sends them to Claude, writes a short tactical Jekyll post to _field_notes/.
 
 Run: python field_note.py    Requires: ANTHROPIC_API_KEY
@@ -43,7 +43,7 @@ def build_prompt(articles):
         lines.append(f"[{category.upper()}] {source}\nTitle: {title}\nURL: {url}\nSummary: {summary}\n")
     articles_text = "\n---\n".join(lines)
 
-    return f"""You are the anonymous author of "It's Already Priced." — a crypto security and markets digest. This is a "Field Note": a short, tactical daily entry, distinct from the weekly Issue. Same dry, world-weary, authoritative voice, but tighter and more operational, like a note scrawled between drains.
+    return f"""You are the anonymous author of "It's Already Priced." â€” a crypto security and markets digest. This is a "Field Note": a short, tactical daily entry, distinct from the weekly Issue. Same dry, world-weary, authoritative voice, but tighter and more operational, like a note scrawled between drains.
 
 Below are the last day's crypto articles. Pick the 1 to 3 highest-signal items (an active exploit, a confirmed theft with real losses, a disclosed protocol flaw, a drainer campaign, or a genuinely board-moving market/regulatory event). Skip shilling, price-action noise, and PR. Write a Field Note in Markdown with exactly this structure:
 
@@ -91,7 +91,7 @@ summary: "{safe_summary}"
         "[@ItsAlreadyPrice](https://x.com/ItsAlreadyPrice) or subscribe via RSS.*"
     )
     NOTES_DIR.mkdir(exist_ok=True)
-    related = build_related_section(NOTES_DIR.parent, filename.name)
+    related = build_related_section(NOTES_DIR.parent, filename.name, current_text=f"{title} {content}")
     filename.write_text(
         frontmatter + content + ("\n\n" + related if related else "") + cta,
         encoding="utf-8",
@@ -150,7 +150,7 @@ def main():
     sources = validate_sources(sources_line, input_urls)
     content = content + "\n\n" + build_resources_section(content, sources)
 
-    title = f"Field Note — {datetime.now(MT).strftime('%B %d, %Y')}"
+    title = f"Field Note â€” {datetime.now(MT).strftime('%B %d, %Y')}"
     filepath = write_note(title, summary, content)
 
     if not os.environ.get("GITHUB_ACTIONS"):
