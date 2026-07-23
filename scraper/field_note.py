@@ -11,9 +11,37 @@ import subprocess
 from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 from pathlib import Path
+import re
 import anthropic
 from resources import build_resources_section, validate_sources, build_related_section
 from scraper import init_db
+from note_quality import assess
+
+# Concrete-specificity signals for a crypto Field Note: an on-chain address/tx,
+# a dollar amount, or any number.
+_CONCRETE = re.compile(r"0x[a-fA-F0-9]{6,}|\$[\d.,]+|\b\d[\d.,]*\b")
+
+
+def _quality_problems(content: str) -> list:
+    """Deterministic substance floor: the two sections, enough substance, at
+    least one concrete ref, and no hedge-filler."""
+    return assess(content, min_words=90,
+                  require=["## Today's Field Note", "## Today's Move"],
+                  concrete_re=_CONCRETE, need_specifics=1)
+
+
+def _parse_note(raw: str):
+    """(summary, sources_line, content) from a raw Claude response."""
+    summary, sources_line, body = "", "", []
+    for line in raw.splitlines():
+        if line.startswith("SUMMARY:"):
+            summary = line.replace("SUMMARY:", "").strip()
+        elif line.startswith("SOURCES:"):
+            sources_line = line
+        else:
+            body.append(line)
+    return summary, sources_line, "\n".join(body).strip()
+
 
 DB_PATH = Path(__file__).parent / "articles.db"
 NOTES_DIR = Path(__file__).parent.parent / "_field_notes"
@@ -129,15 +157,7 @@ def main():
     )
     raw = response.content[0].text.strip()
 
-    summary, sources_line, body = "", "", []
-    for line in raw.splitlines():
-        if line.startswith("SUMMARY:"):
-            summary = line.replace("SUMMARY:", "").strip()
-        elif line.startswith("SOURCES:"):
-            sources_line = line
-        else:
-            body.append(line)
-    content = "\n".join(body).strip()
+    summary, sources_line, content = _parse_note(raw)
 
     input_urls = [a[1] for a in articles]
     mark_used(conn, input_urls)
@@ -146,6 +166,27 @@ def main():
     if summary == "SKIP" or not content:
         print("Nothing high-signal today. Skipping Field Note.")
         return
+
+    # Editorial substance floor: regenerate a thin/generic note once, stricter,
+    # and skip it rather than publish filler.
+    problems = _quality_problems(content)
+    if problems:
+        print(f"Field Note below the floor {problems}; regenerating once, stricter.")
+        strict = build_prompt(articles) + (
+            "\n\nYour previous draft fell short: " + "; ".join(problems) +
+            ". Rewrite it far more specific and tactical: name exact protocols, "
+            "chains, amounts, and addresses, and concrete moves. Keep both "
+            "sections and the SOURCES line, and stay under 300 words.")
+        retry = client.messages.create(
+            model="claude-opus-4-8", max_tokens=900,
+            messages=[{"role": "user", "content": strict}])
+        s2, sl2, c2 = _parse_note(retry.content[0].text.strip())
+        if c2 and s2 != "SKIP" and not _quality_problems(c2):
+            summary, sources_line, content = (s2 or summary), (sl2 or sources_line), c2
+            print("  retry cleared the floor.")
+        else:
+            print("  retry still below the floor; skipping today's Field Note.")
+            return
 
     sources = validate_sources(sources_line, input_urls)
     content = content + "\n\n" + build_resources_section(content, sources)
