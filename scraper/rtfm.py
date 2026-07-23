@@ -1,5 +1,5 @@
 """
-Weekly RTFM generator — picks the next unused topic from rtfm_topics.yml,
+Weekly RTFM generator â€” picks the next unused topic from rtfm_topics.yml,
 sends it to Claude, writes a long-form Jekyll post to _rtfm/.
 
 Deliberately NOT sourced from the article database. RTFM is evergreen,
@@ -39,7 +39,7 @@ def next_topic(topics):
 
 
 def build_prompt(topic):
-    return f"""You are the anonymous author of "It's Already Priced." — a crypto security and markets publication. This piece is for "RTFM": a weekly long-form, technical, reference-grounded article. It is deliberately NOT news-driven and must not reference recent exploits, specific hacks, or current events. That is what Issues and Field Notes are for. RTFM is the field manual: durable, technical, first-principles writing about the security practices crypto users and builders already know they should follow and routinely do not.
+    return f"""You are the anonymous author of "It's Already Priced." â€” a crypto security and markets publication. This piece is for "RTFM": a weekly long-form, technical, reference-grounded article. It is deliberately NOT news-driven and must not reference recent exploits, specific hacks, or current events. That is what Issues and Field Notes are for. RTFM is the field manual: durable, technical, first-principles writing about the security practices crypto users and builders already know they should follow and routinely do not.
 
 Same voice as the rest of the publication: dry, world-weary, authoritative, allergic to hype and shilling. Longer and more technical than the news sections, closer to a respected practitioner's essay than a digest entry.
 
@@ -49,10 +49,10 @@ Angle: {topic['angle']}
 
 Write the article in Markdown with this structure. Do NOT include a top-level title (no "# ..." line); the template renders the title. Start directly with the opening paragraph.
 1. Open with a sharp, opinionated framing (2 to 4 sentences): why this obvious thing is still ignored in practice
-2. ## The Standard — what the framework or mechanism actually requires, in plain language, citing it by name
-3. ## Where It Breaks Down — the specific, concrete ways people and protocols fail at this (be technical: name mechanisms, contract patterns, wallet behaviors, not vague generalities)
-4. ## Doing It Right — concrete, actionable guidance a holder or builder could actually implement
-5. ## The Bottom Line — a short closing that ties back to the publication's fatalistic voice
+2. ## The Standard â€” what the framework or mechanism actually requires, in plain language, citing it by name
+3. ## Where It Breaks Down â€” the specific, concrete ways people and protocols fail at this (be technical: name mechanisms, contract patterns, wallet behaviors, not vague generalities)
+4. ## Doing It Right â€” concrete, actionable guidance a holder or builder could actually implement
+5. ## The Bottom Line â€” a short closing that ties back to the publication's fatalistic voice
 
 Rules:
 - Do not reference specific recent hacks or current events. Keep it evergreen
@@ -81,7 +81,7 @@ framework_url: "{topic['framework_url']}"
 
 """
     RTFM_DIR.mkdir(exist_ok=True)
-    related = build_related_section(RTFM_DIR.parent, filename.name)
+    related = build_related_section(RTFM_DIR.parent, filename.name, current_text=f"{topic} {content}")
     filename.write_text(
         frontmatter + content + ("\n\n" + related if related else ""),
         encoding="utf-8",
