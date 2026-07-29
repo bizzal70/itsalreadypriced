@@ -21,7 +21,7 @@
   framework_url: https://docs.safe.global/
   angle: A multisig where one person holds three of the keys is a single point of
     failure with extra steps
-  used: false
+  used: true
 - topic: Bridge Risk and Why Cross-Chain Is the Weakest Link
   framework: Trail of Bits — Building Secure Contracts
   framework_url: https://secure-contracts.com/
