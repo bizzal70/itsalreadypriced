@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 24, 2026"
+title: "Field Note — July 24, 2026"
 date: 2026-07-24
 summary: "Odos is winding down with a hard July 30 withdrawal deadline, and a fresh batch of exploitable flaws (Redis RCE PoCs, NodeBB, ChatGPT AgentForger) landed the same day."
 ---
