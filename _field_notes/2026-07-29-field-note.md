@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 29, 2026"
+title: "Field Note — July 29, 2026"
 date: 2026-07-29
 summary: "Two live software supply-chain compromises plus an Apple-listed fake wallet that drained $1.8M, all pointing at the same failure mode: trusting the store."
 ---
