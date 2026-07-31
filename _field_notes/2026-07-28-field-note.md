@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 28, 2026"
+title: "Field Note — July 28, 2026"
 date: 2026-07-28
 summary: "A fake Sparrow Wallet on Apple's App Store drained $1.8M in BTC, while BitMart and BitMEX wind-downs leave user withdrawals in limbo."
 ---
