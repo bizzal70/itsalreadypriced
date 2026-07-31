@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 30, 2026"
+title: "Field Note — July 30, 2026"
 date: 2026-07-30
 summary: "Ostium's $24M off-chain breach and a fake Flare staking site draining $8.5M in XRP prove the perimeter is you, not the contract."
 ---
