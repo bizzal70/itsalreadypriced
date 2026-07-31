@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 26, 2026"
+title: "Field Note — July 26, 2026"
 date: 2026-07-26
 summary: "Two Ethereum bridges bled $31.7M in hours while a browser-built malware campaign impersonates Solana and TradingView to drain retail traders."
 ---
