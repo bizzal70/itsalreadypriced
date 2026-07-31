@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 25, 2026"
+title: "Field Note — July 25, 2026"
 date: 2026-07-25
 summary: "A North Korean phishing kit fingerprints your wallet before it drops malware, while Fastjson 1.x eats unauthenticated RCE with no patch in sight."
 ---
