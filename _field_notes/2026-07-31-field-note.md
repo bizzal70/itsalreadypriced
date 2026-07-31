@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 31, 2026"
+title: "Field Note — July 31, 2026"
 date: 2026-07-31
 summary: "A weak-RNG flaw in Coldcard Mk3 firmware drained 594 BTC ($38M) from ~500 addresses in a 25-minute sweep, and the vendor confirms it."
 ---
