@@ -1,6 +1,6 @@
 ---
 layout: field_note
-title: "Field Note â€” July 27, 2026"
+title: "Field Note — July 27, 2026"
 date: 2026-07-27
 summary: "SparkKitty photo-scraping malware and a fresh n8n sandbox escape land the same day Triple-A eats an $11.8M treasury breach, while BitMart withdrawals stall on the way out the door."
 ---
