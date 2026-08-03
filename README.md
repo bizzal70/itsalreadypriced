@@ -96,6 +96,8 @@ All scheduled workflows support `workflow_dispatch` for manual runs.
 | `scraper/scraper.py` | Pulls feeds, deduplicates by URL hash, caches to `articles.db` |
 | `scraper/digest.py` | Generates weekly Issue from this week's articles via Claude API |
 | `scraper/field_note.py` | Generates daily Field Note from last 24h articles |
+| `scraper/note_quality.py` | Deterministic editorial substance floor for Field Notes: asserts word count / structure / concrete specifics. A thin note is regenerated once (stricter), then skipped |
+| `scraper/set_avatar.py` | One-shot utility to update the X account avatar (run via `set-avatar.yml`) |
 | `scraper/rtfm.py` | Picks next unused topic from `rtfm_topics.yml`; generates evergreen RTFM article |
 | `scraper/resources.py` | Builds deterministic block-explorer and incident-tracker links from token/tx IDs — never LLM-generated URLs |
 | `scraper/x_thumbnail.py` | Generates 1200×675 X card image (Pillow): dark terminal-green theme, dollar figures from summary extracted and shown in right column |
