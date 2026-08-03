@@ -13,7 +13,6 @@ Env:
 
 import os
 import re
-import sys
 import glob
 import time
 import urllib.request
