@@ -77,29 +77,65 @@ def wait_for_200(url, timeout=300, interval=10):
     return False
 
 
+# A small, low-risk set of topic keywords -> an extra, more specific hashtag.
+# Supplements (never replaces) the static tags. Kept intentionally simple.
+_TOPIC_TAGS = [
+    ("exploit", "#Exploit"),
+    ("hack", "#CryptoHack"),
+    ("wallet", "#WalletSecurity"),
+    ("bridge", "#BridgeRisk"),
+    ("phishing", "#Phishing"),
+    ("scam", "#Scam"),
+    ("regulat", "#CryptoRegulation"),
+    ("etf", "#CryptoETF"),
+    ("stablecoin", "#Stablecoin"),
+    ("multisig", "#Multisig"),
+]
+
+
+def extract_topic_tag(text):
+    low = f" {text.lower()} "
+    for kw, tag in _TOPIC_TAGS:
+        if kw in low:
+            return tag
+    return None
+
+
 def build_tweet(coll, fm, url):
+    """Two-part post: a link-free hook tweet (X's ranking suppresses reach on
+    posts with outbound links) plus a reply carrying the link. Leads with the
+    hook directly instead of a brand+type prefix eating the preview text."""
     title = fm.get("title", "")
     summary = fm.get("summary", "")
     issue = fm.get("issue", "")
     if coll == "_posts" and issue.isdigit():
-        head = f"It's Already Priced. — Issue #{int(issue):03d}"
-        body, tags = summary, "#Crypto #CryptoSecurity #DeFi"
+        body, tags = (summary or title), "#Crypto #CryptoSecurity #DeFi"
+        label = f"Issue #{int(issue):03d}"
     elif coll == "_field_notes":
-        head, body, tags = "It's Already Priced. — Field Note", (summary or title), "#Crypto #CryptoSecurity"
+        body, tags = (summary or title), "#Crypto #CryptoSecurity"
+        label = "Field Note"
     elif coll == "_rtfm":
-        head, body, tags = "It's Already Priced. — RTFM", title, "#Crypto #DeFi #Security"
+        body, tags = (summary or title), "#Crypto #DeFi #Security"
+        label = "RTFM"
     else:
-        head, body, tags = "It's Already Priced.", (summary or title), "#Crypto #CryptoSecurity"
+        body, tags = (summary or title), "#Crypto #CryptoSecurity"
+        label = "post"
+
+    topic_tag = extract_topic_tag(f"{title} {summary}")
+    if topic_tag and topic_tag not in tags:
+        tags = f"{tags} {topic_tag}"
 
     def assemble(b):
-        return f"{head}\n\n{b}\n\n{url}\n\n{tags}"
+        return f"{b}\n\n{tags}"
 
-    tweet = assemble(body)
-    if len(tweet) > 280:
+    main = assemble(body)
+    if len(main) > 280:
         overhead = len(assemble("")) + 3
         body = body[: max(0, 280 - overhead)].rstrip() + "..."
-        tweet = assemble(body)
-    return tweet
+        main = assemble(body)
+
+    reply = f"Full {label}: {url}"
+    return main, reply
 
 
 def make_thumbnail(fm):
@@ -178,13 +214,18 @@ def main():
             except Exception as e:
                 print(f"[x_post] WARNING: media upload failed ({e}); posting without image")
 
-        tweet = build_tweet(info["coll"], info["fm"], info["url"])
+        tweet, reply_tweet = build_tweet(info["coll"], info["fm"], info["url"])
         print(f"Posting:\n{tweet}\n")
         kwargs = {"text": tweet}
         if media_ids:
             kwargs["media_ids"] = media_ids
         resp = client.create_tweet(**kwargs)
-        print(f"Tweeted: https://x.com/{HANDLE}/status/{resp.data['id']}")
+        tweet_id = resp.data["id"]
+        print(f"Tweeted: https://x.com/{HANDLE}/status/{tweet_id}")
+
+        print(f"Posting link reply:\n{reply_tweet}\n")
+        reply_resp = client.create_tweet(text=reply_tweet, in_reply_to_tweet_id=tweet_id)
+        print(f"Reply posted: https://x.com/{HANDLE}/status/{reply_resp.data['id']}")
 
         if thumb_path:
             try:
