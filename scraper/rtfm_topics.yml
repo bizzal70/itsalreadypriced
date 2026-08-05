@@ -27,7 +27,7 @@
   framework_url: https://secure-contracts.com/
   angle: Bridges concentrate value behind a handful of keys and a validator set, and
     attackers know it
-  used: false
+  used: true
 - topic: Upgradeable Contracts and the Admin Key Problem
   framework: OpenZeppelin Proxy Upgrade Patterns
   framework_url: https://docs.openzeppelin.com/upgrades-plugins/proxies
