@@ -85,7 +85,7 @@ def build_tweet(coll, fm, url):
         head = f"It's Already Priced. — Issue #{int(issue):03d}"
         body, tags = summary, "#Crypto #CryptoSecurity #DeFi"
     elif coll == "_field_notes":
-        head, body, tags = "It's Already Priced. — Field Note", title, "#Crypto #CryptoSecurity"
+        head, body, tags = "It's Already Priced. — Field Note", (summary or title), "#Crypto #CryptoSecurity"
     elif coll == "_rtfm":
         head, body, tags = "It's Already Priced. — RTFM", title, "#Crypto #DeFi #Security"
     else:
