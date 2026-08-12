@@ -33,7 +33,7 @@
   framework_url: https://docs.openzeppelin.com/upgrades-plugins/proxies
   angle: Immutable code is a marketing line when a single upgrade key can replace
     it all
-  used: false
+  used: true
 - topic: Oracle Manipulation and Price Feed Integrity
   framework: Chainlink Data Feeds
   framework_url: https://docs.chain.link/data-feeds
