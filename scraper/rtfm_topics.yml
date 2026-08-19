@@ -39,7 +39,7 @@
   framework_url: https://docs.chain.link/data-feeds
   angle: Most DeFi exploits are not code bugs, they are the protocol trusting a number
     an attacker controls
-  used: false
+  used: true
 - topic: Reading a Token Contract Before You Buy the Rug
   framework: OWASP Smart Contract Top 10
   framework_url: https://owasp.org/www-project-smart-contract-top-10/
