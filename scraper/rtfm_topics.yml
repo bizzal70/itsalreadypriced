@@ -45,7 +45,7 @@
   framework_url: https://owasp.org/www-project-smart-contract-top-10/
   angle: Mint functions, hidden owners, and blacklists are visible on-chain before
     the exit, if you look
-  used: false
+  used: true
 - topic: Cold Storage and Operational Security for Custody
   framework: NIST SP 800-57 (Key Management)
   framework_url: https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final
