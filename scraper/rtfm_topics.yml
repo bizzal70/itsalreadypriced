@@ -50,7 +50,7 @@
   framework: NIST SP 800-57 (Key Management)
   framework_url: https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final
   angle: Self-custody is a key management program, not a hardware wallet in a drawer
-  used: false
+  used: true
 - topic: Exchange Custody, Counterparty Risk, and Proof of Reserves
   framework: Chainlink Proof of Reserve
   framework_url: https://chain.link/proof-of-reserve
