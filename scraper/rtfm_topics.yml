@@ -56,7 +56,7 @@
   framework_url: https://chain.link/proof-of-reserve
   angle: Not your keys, not your coins is not a slogan, it is a balance-sheet claim
     you cannot audit
-  used: false
+  used: true
 - topic: Address Poisoning and Clipboard Malware
   framework: MITRE ATT&CK
   framework_url: https://attack.mitre.org/
