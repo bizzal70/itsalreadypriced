@@ -61,7 +61,7 @@
   framework: MITRE ATT&CK
   framework_url: https://attack.mitre.org/
   angle: The attacker does not need your key if they can change the address you paste
-  used: false
+  used: true
 - topic: On-Chain Forensics and Following Stolen Funds
   framework: Etherscan and Public Block Explorers
   framework_url: https://etherscan.io/
