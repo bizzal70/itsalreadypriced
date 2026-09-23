@@ -67,7 +67,7 @@
   framework_url: https://etherscan.io/
   angle: The ledger is public, which is exactly why laundering, not theft, is the
     hard part for attackers
-  used: false
+  used: true
 - topic: MEV, Front-Running, and Sandwich Attacks
   framework: Flashbots MEV Documentation
   framework_url: https://docs.flashbots.net/
