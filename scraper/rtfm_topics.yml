@@ -73,7 +73,7 @@
   framework_url: https://docs.flashbots.net/
   angle: Your pending transaction is a public broadcast of intent, and bots read it
     faster than you do
-  used: false
+  used: true
 - topic: Governance Attacks and Flash-Loan Voting
   framework: Compound and OpenZeppelin Governor
   framework_url: https://docs.openzeppelin.com/contracts/governance
