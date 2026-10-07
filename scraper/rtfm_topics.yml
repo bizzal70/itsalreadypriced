@@ -79,7 +79,7 @@
   framework_url: https://docs.openzeppelin.com/contracts/governance
   angle: Borrowed voting power is real voting power for exactly one block, and that
     is enough
-  used: false
+  used: true
 - topic: Smart Contract Security Best Practices for Builders
   framework: ConsenSys Smart Contract Best Practices
   framework_url: https://consensys.github.io/smart-contract-best-practices/
