@@ -85,4 +85,4 @@
   framework_url: https://consensys.github.io/smart-contract-best-practices/
   angle: Reentrancy is decades old and still drains protocols, because checks-effects-interactions
     is boring
-  used: false
+  used: true
