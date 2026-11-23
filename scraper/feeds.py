@@ -1,8 +1,4 @@
-FEEDS = [
-    # Incident-specific (the security spine)
-    {"name": "Cointelegraph Hacks", "url": "https://cointelegraph.com/rss/tag/hacks", "category": "incident"},
-    {"name": "The Hacker News", "url": "https://feeds.feedburner.com/TheHackersNews", "category": "security"},
-    {"name": "Bleeping Computer", "url": "https://www.bleepingcomputer.com/feed/", "category": "security"},
+": "https://www.bleepingcomputer.com/feed/", "category": "security"},
     {"name": "Chainalysis Blog", "url": "https://www.chainalysis.com/blog/feed/", "category": "research"},
 
     # Crypto news, markets, regulation
